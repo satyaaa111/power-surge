@@ -1,19 +1,83 @@
 "use client";
-import React,{ useState,useRef } from 'react';
-import Calendar from './Calendar';
-import { Axios } from 'axios';
+import React,{ useState } from 'react';
+import Calendar from 'react-calendar';
+import Link  from 'next/link';
+import 'react-calendar/dist/Calendar.css';
+import { axios } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Data from '../Data_MajorEventsAcads/data.json';
 
-const AcadDashboard = () => {
+const AcadDashboard = ({ formData,setFormData}) => {
   const [popUp,setPopUp] = useState(false);
-  const scrollToTopRef = useRef(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    location: '',
-  });
+  const [todoInput, setTodoInput] = useState('');
+
+  const [subject, setSubject] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [description, setDescription] = useState('');
+  const [schedules, setSchedules] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (subject.trim() !== '' && date.trim() !== '' && time.trim() !== '') {
+      const newSchedule = {
+        id: Date.now(),
+        subject,
+        date,
+        time,
+        description,
+        todoInput
+      };
+      setSchedules([...schedules, newSchedule]);
+      setSubject('');
+      setDate('');
+      setTime('');
+      setDescription('');
+    }
+  };
+
+  const handleUndo = (id) => {
+    const updatedSchedules = schedules.filter((schedule) => schedule.id !== id);
+    setSchedules(updatedSchedules);
+  };
+
+  const handleTodoInputChange = (e) => {
+    setTodoInput(e.target.value);
+  };
+
+  function formatDateToddMMYYYY(dateString) {
+    const dateObject = new Date(dateString);
+  
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const year = dateObject.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+
+  const handleViewDetails = (id) => {};
+
+  const handleCalendarClick = (value) => {
+    //Function for handling  the calendar click event
+    // setFormData(...FormData,'date':value)
+    console.log(value,formatDateToddMMYYYY(value));
+    setFormData({
+      ...formData,
+      [formData.date]:formatDateToddMMYYYY(value),
+    });
+    setPopUp(!popUp);
+  }
+  
+  const handleAddTodo = () => {
+    if (todoInput.trim() !== '') {
+      setFormData({
+        ...formData,
+        todos: [...formData.todos, { text: todoInput, completed: false }],
+      });
+      setTodoInput('');
+    }
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -22,33 +86,40 @@ const AcadDashboard = () => {
     });
   };
 
+  const handleToggleTodo = (index) => {
+    const updatedTodos = [...formData.todos];
+    updatedTodos[index].completed = !updatedTodos[index].completed;
+    setFormData({ ...formData, todos: updatedTodos });
+  };
+  
+  const handleRemoveTodo = (index) => {
+    const updatedTodos = [...formData.todos];
+    updatedTodos.splice(index, 1);
+    setFormData({ ...formData, todos: updatedTodos });
+  };
+
   const handleMajorEventSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      res = await axios.post('/api/major-events', formData);
+      await axios.post('/api/major-events', { ...formData, todos: formData.todos });
       // Reset the form data after successful submission
       setFormData({
         title: '',
         description: '',
         date: '',
-        // Reset other form fields
+        location: '',
+        todos: [],
       });
+      setTodoInput('');
       // Display a success message or redirect to another page
     } catch (error) {
       console.error('Error submitting major event:', error);
       // Display an error message to the user
     }
-    if(res.status == 200){
-      setPopUp(!popUp);
-      //toastify message success
-    }else{
-      setPopUp(!popUp);
-      //toastify message fail
-    }
   };
 
-  const handleMajorEvent = ()=>{
+  const handleMajorEvent =()=>{
     setPopUp(!popUp);
     window.scrollTo({
       top: "0",
@@ -58,77 +129,227 @@ const AcadDashboard = () => {
   }
 
   return (
-    <div className='main flex-col justify-center items-center'>
+    <>
+    <div 
+    className='main flex justify-around items-center p-10 overflow-x-hidden' 
+    style={{
+      background:"#FAFAFB"
+    }}>
+      {/* PopUp */}
     {popUp && 
-    <div ref={scrollToTopRef} className="popUp absolute backdrop-blur-2xl z-50 w-[100vw] h-[100vh] flex justify-center items-center">
-        <div className="form flex-col gap-5 w-[50vw] min-w-[260px] h-[60vh] bg-slate-100">
-        <form onSubmit={()=>handleMajorEventSubmit(e)} className=' flex justify-evenly items-center'>
+    <div>
+      <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-4">Create and Customize Study Schedules</h1>
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="subject">
+            Subject
+          </label>
           <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="subject"
             type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder="Title"
+            placeholder="Enter subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
           />
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            placeholder="Description"
-          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
+            Date
+          </label>
           <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="date"
             type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleInputChange}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
-        {/* Add more input fields as needed */}
-        <button type="submit" onClick={()=>handleMajorEventSubmit(formData)} className=' bg-red-400'>Submit</button>
-      </form>
-        <button onClick={handleMajorEvent} className=' close border-l-indigo-500' >Close</button>
         </div>
-      </div>}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="time">
+            Time
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="time"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+        </div>
+         <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description"> 
+           Description
+  </label>
+  <textarea
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="description"
+    placeholder="Enter description"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+  ></textarea>
+</div>
+<div className="flex items-center justify-between">
+  <button
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    type="submit"
+  >
+    Add Schedule
+  </button>
+  <button
+    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    type="button"
+    onClick={() => setSchedules([])}
+  >
+    Clear All
+  </button>
+</div>
+</form>
+<div>
+<h2 className="text-2xl font-bold mb-4">Study Schedules</h2>
+<ul>
+  {schedules.map((schedule) => (
+    <li key={schedule.id} className="mb-4">
+      <div className="bg-gray-100 p-4 rounded shadow">
+        <h3 className="text-xl font-bold mb-2">{schedule.subject}</h3>
+        <p className="mb-2">
+          <strong>Date:</strong> {schedule.date}
+        </p>
+        <p className="mb-2">
+          <strong>Time:</strong> {schedule.time}
+        </p>
+        <p className="mb-2">
+          <strong>Description:</strong> {schedule.description}
+        </p>
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="button"
+          onClick={() => handleUndo(schedule.id)}
+        >
+          Undo
+        </button>
+      </div>
+    </li>
+  ))}
+</ul>
+</div>
+</div>
+    </div>}
 
 
-      <div className="section1 bg-stone-700 w-[100vw] h-[80vh] flex justify-evenly items-center">
-        <div className="achieve h-[60vh] w-[45vw] flex-col justify-center items-center bg-slate-200">
-          Achievements
-          <div className="strip_A h-[3rem] bg-gray-500">
-            Progress details
+      <div className="section1 w-[50vw] flex-col justify-center items-center ">
+          <h1 className='heading text-2xl font-bold w-[40vw]'>ACADEMIC DASHBOARD</h1>
+          <div className=' border-2 pl-10 pb-5 flex-col justify-center items-center '>
+            <div 
+              className="subheading" 
+              style={{
+                padding:'2px',
+                width:'40vw'
+              }}>
+              Your achievements
+            </div>
+            <div 
+            className="minisubheading text-[0.75rem]" 
+            style={{
+              padding:'2px',
+              width:'40vw'
+            }}>
+              This week
+            </div>
+            <div className="strip w-[35vw]">
+              {Data.map((element,i)=>{
+                return(
+                  <>
+                  <div 
+                  className="strip flex justify-evenly items-center gap-5 p-4 " 
+                  style={{
+                    border:'1px solid gray',
+                  }}>
+                      <div className="circle rounded-[50%] w-[3vw] h-[6vh] min-h-[10px] min-w-[10px] bg-green-500 font-extrabold text-[1.5rem] flex justify-center items-center text-white">✓</div>
+                      <div className=' flex-col gap-2'>
+                        <div>{element.title}</div>
+                        <div>{element.date}</div>
+                      </div>
+                      <div 
+                      className="status_comp" 
+                      style={{
+                        border:'1px solid gray',
+                        padding:'2px',
+                        borderRadius:'5rem'
+                      }}>
+                        {element.status}
+                      </div>
+                  </div>
+                  </>
+              )
+            })}
+            </div>
           </div>
-          <div className="strip_A h-[3rem] bg-gray-500">
-            Progress details
-          </div>
-          <div className="strip_A h-[3rem] bg-gray-500">
-            Progress details
-          </div>
-        </div>
-        <div className="calendar relative h-[50%] w-[50%] ml-[10vw] mt-[-12.5vw] bg-slate-500">
-          <Calendar/>
-        </div>
+          <Link
+          className="button flex justify-center items-center gap-2 p-3" 
+          onClick={handleMajorEvent} 
+          style={{
+            background:'#0E9BA8',
+            width:'clamp(100px,10rem,300px)',
+            padding:'0.25rem 1.25rem',
+            borderRadius:'0.75rem'
+          }}
+          href= "/study-schedule" 
+           >
+            Add Event
+          </Link>
       </div>
-      <div className="section2 w-[100vw] h-[80vh] border-solid border-slate-950 bg-zinc-700">
-        <div className="majorEvents flex justify-evenly items-start w-[50vw] bg-slate-100 ">
-          <div className="task w-[14rem] h-[5.5rem] bg-gray-700">
-           Name 
-          </div>
-          <div className="progress  w-[14rem] h-[5.5rem] bg-gray-400">
-           progress 
-          </div>
-        </div>
-        <div className="majorEvents flex justify-evenly items-start w-[50vw] bg-slate-100 ">
-          <div className="task w-[14rem] h-[5.5rem] bg-gray-700">
-           Name 
-          </div>
-          <div className="progress  w-[14rem] h-[5.5rem] bg-gray-400">
-           progress 
-          </div>
-        </div>
-      <div className="button" onClick={handleMajorEvent}>
-        Add Event
-      </div>
+      <div className="section2 flex-row justify-center items-center px-7 py-10 border-2">
+        <div>Calendar</div>
+        <Calendar onClickDay={(value)=>{handleCalendarClick(value)}}  />
       </div>
     </div>
+    <h1>UPCOMING MAJOR EVENTS</h1>
+    <div className="section2 flex justify-start items-start w-[100vw] flex-wrap ">
+      
+    <div className="stats1 flex justify-evenly w-[50vw] p-5">
+        <div className="event flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-slate-300 rounded-md">
+            <div>title1</div>
+            <div className=' font-semibold '>title1</div>
+        </div>
+        <div className="progress flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-yellow-300 rounded-md">
+            <div className=' font-semibold '>title2</div>
+            <button onClick={handleViewDetails} className='font-sm'>View Details</button>
+        </div>
+      </div>
+      <div className="stats1 flex justify-evenly w-[50vw] p-5">
+        <div className="event flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-slate-300 rounded-md">
+            <div>title1</div>
+            <div className=' font-semibold '>title1</div>
+        </div>
+        <div className="progress flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-yellow-300 rounded-md">
+            <div className=' font-semibold '>title2</div>
+            <button onClick={handleViewDetails} className='font-sm'>View Details</button>
+        </div>
+      </div>
+      <div className="stats1 flex justify-evenly w-[50vw] p-5">
+        <div className="event flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-slate-300 rounded-md">
+            <div>title1</div>
+            <div className=' font-semibold '>title1</div>
+        </div>
+        <div className="progress flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-yellow-300 rounded-md">
+            <div className=' font-semibold '>title2</div>
+            <button onClick={handleViewDetails} className='font-sm'>View Details</button>
+        </div>
+      </div>
+      <div className="stats1 flex justify-evenly w-[50vw] p-5">
+        <div className="event flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-slate-300 rounded-md">
+            <div>title1</div>
+            <div className=' font-semibold '>title1</div>
+        </div>
+        <div className="progress flex-col justify-evenly w-[18.5vw] h-[20vh] p-5 bg-yellow-300 rounded-md">
+            <div className=' font-semibold '>title2</div>
+            <button onClick={handleViewDetails} className='font-sm'>View Details</button>
+        </div>
+      </div>
+    </div>
+    </>
   )
 };
 export default AcadDashboard;
