@@ -2,7 +2,8 @@
 import React,{ useState,useRef } from 'react';
 import Calendar from './Calendar';
 import { Axios } from 'axios';
-// import toastify from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AcadDashboard = () => {
   const [popUp,setPopUp] = useState(false);
