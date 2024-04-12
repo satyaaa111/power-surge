@@ -38,7 +38,7 @@ export default function Navbar() {
 
     </div>
     <div className='profile flex justify-end items-center pr-[1.9rem] cursor-pointer' style={{flex:2}}>
-    <Link href="/"><img src="/images/Avatar.jpg" alt="" /> </Link>
+    <Link href="/"><img className="profile_img rounded-full" src="/images/Avatar.jpg" alt="" /> </Link>
     </div>
 
       </div>
