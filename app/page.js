@@ -12,8 +12,6 @@ export default function Home() {
     date: '',
     todos: [],
   });
-
-
   return (
     <div>
       <AcadDashboard formData={formData} setFormData={setFormData}/>

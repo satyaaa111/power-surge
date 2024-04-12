@@ -1,33 +1,31 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
 const StudySchedulePage = () => {
-  const [subject, setSubject] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [description, setDescription] = useState('');
+  const [subject, setSubject] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [description, setDescription] = useState("");
   const [schedules, setSchedules] = useState([]);
-  const [todoInput, setTodoInput] = useState('');
-  const [todos, setTodos] = useState([]);
-  const [completionPercentage, setCompletionPercentage] = useState(0);
+  const [todoInput, setTodoInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (subject.trim() !== '' && date.trim() !== '' && time.trim() !== '') {
+    if (subject.trim() !== "" && date.trim() !== "" && time.trim() !== "") {
       const newSchedule = {
         id: Date.now(),
         subject,
         date,
         time,
         description,
-        todos,
+        todos: [],
+        completionPercentage: 0,
       };
       setSchedules([...schedules, newSchedule]);
-      setSubject('');
-      setDate('');
-      setTime('');
-      setDescription('');
-      setTodos([]);
+      setSubject("");
+      setDate("");
+      setTime("");
+      setDescription("");
     }
   };
 
@@ -36,38 +34,67 @@ const StudySchedulePage = () => {
     setSchedules(updatedSchedules);
   };
 
-  const handleAddTodo = () => {
-    if (todoInput.trim() !== '') {
-      setTodos([...todos, { text: todoInput, completed: false }]);
-      setTodoInput('');
+  const handleAddTodo = (scheduleId) => {
+    if (todoInput.trim() !== "") {
+      const updatedSchedules = schedules.map((schedule) => {
+        if (schedule.id === scheduleId) {
+          const updatedTodos = [...schedule.todos, { text: todoInput, completed: false }];
+          const completedTodos = updatedTodos.filter((todo) => todo.completed).length;
+          const totalTodos = updatedTodos.length;
+          const completionPercentage = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
+          return { ...schedule, todos: updatedTodos, completionPercentage };
+        }
+        return schedule;
+      });
+      setSchedules(updatedSchedules);
+      setTodoInput("");
     }
   };
 
-  const handleToggleTodo = (index) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index].completed = !updatedTodos[index].completed;
-    setTodos(updatedTodos);
+  const handleToggleTodo = (scheduleId, index) => {
+    const updatedSchedules = schedules.map((schedule) => {
+      if (schedule.id === scheduleId) {
+        const updatedTodos = [...schedule.todos];
+        updatedTodos[index].completed = !updatedTodos[index].completed;
+        const completedTodos = updatedTodos.filter((todo) => todo.completed).length;
+        const totalTodos = updatedTodos.length;
+        const completionPercentage = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
+        return { ...schedule, todos: updatedTodos, completionPercentage };
+      }
+      return schedule;
+    });
+    setSchedules(updatedSchedules);
   };
 
-  const handleRemoveTodo = (index) => {
-    const updatedTodos = [...todos];
-    updatedTodos.splice(index, 1);
-    setTodos(updatedTodos);
+  const handleRemoveTodo = (scheduleId, index) => {
+    const updatedSchedules = schedules.map((schedule) => {
+      if (schedule.id === scheduleId) {
+        const updatedTodos = [...schedule.todos];
+        updatedTodos.splice(index, 1);
+        const completedTodos = updatedTodos.filter((todo) => todo.completed).length;
+        const totalTodos = updatedTodos.length;
+        const completionPercentage = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
+        return { ...schedule, todos: updatedTodos, completionPercentage };
+      }
+      return schedule;
+    });
+    setSchedules(updatedSchedules);
   };
-
-  useEffect(() => {
-    const completedTodos = todos.filter((todo) => todo.completed).length;
-    const totalTodos = todos.length;
-    const percentage = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
-    setCompletionPercentage(percentage);
-  }, [todos]);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Create and Customize Study Schedules</h1>
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <h1 className="text-3xl font-bold mb-4">
+        Create and Customize Study Schedules
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="subject">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="subject"
+          >
             Subject
           </label>
           <input
@@ -80,7 +107,10 @@ const StudySchedulePage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="date"
+          >
             Date
           </label>
           <input
@@ -92,7 +122,10 @@ const StudySchedulePage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="time">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="time"
+          >
             Time
           </label>
           <input
@@ -104,7 +137,10 @@ const StudySchedulePage = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="description"
+          >
             Description
           </label>
           <textarea
@@ -114,54 +150,6 @@ const StudySchedulePage = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="todo">
-            Todo
-          </label>
-          <div className="flex">
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="todo"
-              type="text"
-              placeholder="Enter a todo"
-              value={todoInput}
-              onChange={(e) => setTodoInput(e.target.value)}
-            />
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              onClick={handleAddTodo}
-            >
-              Add
-            </button>
-          </div>
-          <ul className="mt-4">
-            {todos.map((todo, index) => (
-              <li key={index} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => handleToggleTodo(index)}
-                  className="mr-2"
-                />
-                <span
-                  className={`${
-                    todo.completed ? 'line-through text-gray-500' : 'text-gray-700'
-                  }`}
-                >
-                  {todo.text}
-                </span>
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-auto focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={() => handleRemoveTodo(index)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
         </div>
         <div className="flex items-center justify-between">
           <button
@@ -197,30 +185,53 @@ const StudySchedulePage = () => {
                 </p>
                 <p className="mb-2">
                   <strong>Todo:</strong>
-                  <ul>
-                    {schedule.todos.map((todo, index) => (
-                      <li
-                        key={index}
-                        className={`${
-                          todo.completed ? 'line-through text-gray-500' : 'text-gray-700'
-                        }`}
-                      >
-                        <input
-                        type="checkbox"
-                        checked={todo.completed}
-                        onChange={() => handleToggleTodo(index)}
-                        className="mr-2"
+                  <div className="mb-4">
+                    <div className="flex">
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="todo"
+                        type="text"
+                        placeholder="Enter a todo"
+                        value={todoInput}
+                        onChange={(e) => setTodoInput(e.target.value)}
                       />
-                      <span
-                        className={`${
-                          todo.completed ? 'line-through text-gray-500' : 'text-gray-700'
-                        }`}
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="button"
+                        onClick={() => handleAddTodo(schedule.id)}
                       >
-                        {todo.text}
-                      </span>
-                      </li>
-                    ))}
-                  </ul>
+                        Add
+                      </button>
+                    </div>
+                    <ul className="mt-4">
+                      {schedule.todos.map((todo, index) => (
+                        <li key={index} className="flex items-center mb-2">
+                          <input
+                            type="checkbox"
+                            checked={todo.completed}
+                            onChange={() => handleToggleTodo(schedule.id, index)}
+                            className="mr-2"
+                          />
+                          <span
+                            className={`${
+                              todo.completed
+                                ? "line-through text-gray-500"
+                                : "text-gray-700"
+                            }`}
+                          >
+                            {todo.text}
+                          </span>
+                          <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-auto focus:outline-none focus:shadow-outline"
+                            type="button"
+                            onClick={() => handleRemoveTodo(schedule.id, index)}
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </p>
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -229,12 +240,12 @@ const StudySchedulePage = () => {
                 >
                   Undo
                 </button>
+                <div>Completion Percentage: {schedule.completionPercentage.toFixed(2)}%</div>
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <div>Completion Percentage: {completionPercentage.toFixed(2)}%</div>
     </div>
   );
 };
