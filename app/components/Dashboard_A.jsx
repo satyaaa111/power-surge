@@ -3,7 +3,7 @@ import React,{ useState } from 'react';
 import Calendar from 'react-calendar';
 import Link  from 'next/link';
 import 'react-calendar/dist/Calendar.css';
-import { axios } from 'axios';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Data from '../Data_MajorEventsAcads/data.json';
