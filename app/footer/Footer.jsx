@@ -19,7 +19,7 @@ export default function Footer() {
         lifeTrackScholar@gmail.com
         </div>
         <div className='icon2 flex justify-center items-center'>
-        <i class="fa-sharp fa-regular fa-phone pr-3 cursor-pointer"></i>
+        <i class="fa-solid fa-phone pr-3 cursor-pointer"></i>
         +91 90909 12345
         </div>
      </div>

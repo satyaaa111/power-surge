@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Navbar() {
   return (
     <div>
-      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300'>
+      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#73D6FB]'>
     <div className='left-item flex justify-start items-center pl-[1rem]' style={{flex:2}}>
         <div className='logo w-[3rem] pr-2'>
             <img src="/images/logo1.webp" alt="" />
@@ -16,29 +16,29 @@ export default function Navbar() {
             
             <li className='mid_items pr-9'>
                 <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Dashboard</span>
+                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Dashboard</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
               <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Achievements</span>
+                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Achievements</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
             <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Daily Dose</span>
+                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Daily Dose</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
             <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>AI Calling Bot </span>
+                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>AI Calling Bot </span>
                 </Link>
             </li>
         </ul>
 
     </div>
     <div className='profile flex justify-end items-center pr-[1.9rem] cursor-pointer' style={{flex:2}}>
-    <Link href="/"><img src="/images/Avatar.jpg" alt="" /> </Link>
+    <Link href="/"><img className="profile_img rounded-full"src="/images/Avatar.jpg" alt="" /> </Link>
     </div>
 
       </div>
