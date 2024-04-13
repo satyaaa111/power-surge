@@ -13,7 +13,7 @@ export default function CounselingForm() {
   const [transcription, setTranscription] = useState('')
 
   const provideCounseling = async (studentName, studentId, mood, stressLevel, message, phoneNumber) => {
-    const apiKey = process.env.API_KEY
+    const apiKey = 'sk-w7l6ff8oeqyfku4fcklgvpxwmocs3csns93kcmu4yfxjv22hw9ygz7o3wlvdc97a69'
     const apiUrl = 'https://api.bland.ai/call'
 
     const options = {
@@ -80,8 +80,8 @@ export default function CounselingForm() {
   }
 
   return (
-    <div className="max-w-lg mx-auto  mb-54">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-8">
+    <div className="max-w-lg mx-auto  mb-54 mt-3 ">
+      <form onSubmit={handleSubmit} className="bg-[#E0B0FF] shadow-md rounded px-8 pt-6 pb-8 mb-8">
         <div className="mb-4">
           <label htmlFor="studentName" className="block text-gray-700 font-bold mb-2">
             Student Name:
