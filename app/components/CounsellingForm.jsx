@@ -14,6 +14,7 @@ export default function CounselingForm() {
 
   const provideCounseling = async (studentName, studentId, mood, stressLevel, message, phoneNumber) => {
     const apiKey = 'sk-w7l6ff8oeqyfku4fcklgvpxwmocs3csns93kcmu4yfxjv22hw9ygz7o3wlvdc97a69'
+
     const apiUrl = 'https://api.bland.ai/call'
 
     const options = {
@@ -78,13 +79,21 @@ export default function CounselingForm() {
 
     await provideCounseling(studentName, studentId, mood, stressLevel, message, phoneNumber)
   }
-
   return (
+
     <div className="max-w-lg mx-auto  mb-54 mt-3 ">
       <form onSubmit={handleSubmit} className="bg-[#E0B0FF] shadow-md rounded px-8 pt-6 pb-8 mb-8">
         <div className="mb-4">
           <label htmlFor="studentName" className="block text-gray-700 font-bold mb-2">
             Student Name:
+
+    <div className="max-w-lg mx-auto mb-54 bg-white shadow-lg rounded-lg p-8">
+      <h1 className="text-3xl font-bold mb-6 text-center">Student Counseling Form</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-6">
+          <label htmlFor="studentName" className="block text-gray-700 font-semibold mb-2">
+            Student Name
+
           </label>
           <input
             type="text"
@@ -93,13 +102,14 @@ export default function CounselingForm() {
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your name"
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="studentId" className="block text-gray-700 font-bold mb-2">
-            Student ID:
+        <div className="mb-6">
+          <label htmlFor="studentId" className="block text-gray-700 font-semibold mb-2">
+            Student ID
           </label>
           <input
             type="text"
@@ -108,13 +118,14 @@ export default function CounselingForm() {
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your student ID"
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="mood" className="block text-gray-700 font-bold mb-2">
-            Current Mood:
+        <div className="mb-6">
+          <label htmlFor="mood" className="block text-gray-700 font-semibold mb-2">
+            Current Mood
           </label>
           <select
             id="mood"
@@ -122,9 +133,9 @@ export default function CounselingForm() {
             value={mood}
             onChange={(e) => setMood(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select mood</option>
+            <option value="">Select your current mood</option>
             <option value="happy">Happy</option>
             <option value="sad">Sad</option>
             <option value="anxious">Anxious</option>
@@ -133,9 +144,9 @@ export default function CounselingForm() {
           </select>
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="stressLevel" className="block text-gray-700 font-bold mb-2">
-            Stress Level (1-10):
+        <div className="mb-6">
+          <label htmlFor="stressLevel" className="block text-gray-700 font-semibold mb-2">
+            Stress Level (1-10)
           </label>
           <input
             type="number"
@@ -146,13 +157,14 @@ export default function CounselingForm() {
             value={stressLevel}
             onChange={(e) => setStressLevel(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your stress level"
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
-            Enter PhoneNumber with country code:
+        <div className="mb-6">
+          <label htmlFor="phoneNumber" className="block text-gray-700 font-semibold mb-2">
+            Phone Number (with country code)
           </label>
           <input
             type="tel"
@@ -161,13 +173,14 @@ export default function CounselingForm() {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your phone number"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
-            Message:
+          <label htmlFor="message" className="block text-gray-700 font-semibold mb-2">
+            Message
           </label>
           <textarea
             id="message"
@@ -175,27 +188,28 @@ export default function CounselingForm() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"
+            placeholder="Enter your message"
           ></textarea>
         </div>
 
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Get Counseling
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Get Counseling
+        </button>
       </form>
 
-      {/* Transcription Viewing Section */}
       {transcription && (
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mt-8 bg-gray-100 rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Transcription</h2>
-          <p className="text-lg">{transcription}</p>
+          <p className="text-lg leading-relaxed">{transcription}</p>
         </div>
       )}
     </div>
   )
 }
+
+
