@@ -7,7 +7,7 @@ export default function Landing_page() {
   
  
   return (
-    <div className='container flex-col justify-center items-center bg-[#D7F1FB]'>
+    <div className='container flex-col justify-center items-center bg-[#D7F1FB]  overflow-x-hidden'>
         <div className='part1 flex justify-center items-center pt-[4rem] pb-[3rem]'>
             <div className="part1img flex justify-center items-center" style={{flex:5}}><img  src="/images/part1Image.png" className="part1img w-[25rem] rounded-[2%]" alt="" /></div>
             <div className="part1text flex-col justify-center items-center" style={{flex:5}}>

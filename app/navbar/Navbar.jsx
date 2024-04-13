@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Navbar() {
   return (
     <div>
-      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#73D6FB]'>
+      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#73D6FB] overflow-x-hidden'>
     <div className='left-item flex justify-start items-center pl-[1rem]' style={{flex:2}}>
         <div className='logo w-[3rem] pr-2'>
             <img src="/images/logo1.webp" alt="" />
@@ -15,7 +15,7 @@ export default function Navbar() {
         <ul className='flex justify-between items-center'>
             
             <li className='mid_items pr-9'>
-                <Link href="/">
+                <Link href="/dashboard">
                 <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Dashboard</span>
                 </Link>
             </li>
@@ -30,7 +30,7 @@ export default function Navbar() {
                 </Link>
             </li>
             <li className='mid_items pr-9'>
-            <Link href="/">
+            <Link href="/ai_calling_bot">
                 <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>AI Calling Bot </span>
                 </Link>
             </li>
