@@ -1,13 +1,38 @@
-// app/components/LandingPage.js
-'use client'
+"use client";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
-import React from 'react'
-import Image from 'next/image'
+export default function LandingPage() {
+  const [typedText, setTypedText] = useState('');
+  const fullText = "Your Ultimate Study Schedule Management Solution";
 
-export default function Landing_Page() {
+  useEffect(() => {
+    let currentIndex = 0;
+    let interval;
+
+    const typeText = () => {
+      interval = setInterval(() => {
+        setTypedText(fullText.substring(0, currentIndex));
+        currentIndex++;
+        if (currentIndex > fullText.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            currentIndex = 0;
+            setTypedText('');
+            typeText();
+          }, 3000);
+        }
+      }, 50);
+    };
+
+    typeText();
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="container flex-col justify-center items-center bg-[#D7F1FB] overflow-x-hidden">
-      <div className="part1 flex justify-center items-center pt-[4rem] pb-[3rem]">
+    <div className='container flex-col justify-center items-center bg-[#D7F1FB] overflow-x-hidden'>
+      <div className='part1 flex justify-center items-center pt-[4rem] pb-[3rem]'>
         <div className="part1img flex justify-center items-center" style={{ flex: 5 }}>
           <Image
             src="/images/part1Image.png"
@@ -19,10 +44,10 @@ export default function Landing_Page() {
         </div>
         <div className="part1text flex-col justify-center items-center" style={{ flex: 5 }}>
           <span className="part1text_heading flex justify-center items-center text-teal-500 font-bold text-[2rem]">
-            Your Ultimate Study Schedule Management Solution
+            {typedText}
           </span>
-          <div className="part1text_subheading flex justify-start items-center text-gray-700 font-medium">
-            For a happy healthy work life balance
+          <div className='part1text_subheading flex justify-start items-center text-gray-700 font-medium'>
+            Striving for joy, wellness, and equilibrium in work and life.
           </div>
         </div>
       </div>
@@ -83,26 +108,6 @@ export default function Landing_Page() {
           </div>
         </div>
       </div>
-      {/* part3 */}
-      <div className="part3 flex justify-center items-center pt-[5rem] pb-[3rem]">
-        <div className="left flex-col justify-center items-center" style={{ flex: 5 }}>
-          <span className="part3_heading flex justify-center items-center text-teal-500 font-bold text-[2rem]">
-            Self Assessment using AI Calling Bot
-          </span>
-          <div className="part3text_subheading flex justify-center items-center text-gray-700 font-medium">
-            Say hello to unparalleled speed and accuracy
-          </div>
-        </div>
-        <div className="right flex justify-center items-center" style={{ flex: 5 }}>
-          <Image
-            src="/images/happy1.jpg"
-            alt=""
-            width={400}
-            height={400}
-            className="rounded-[2%]"
-          />
-        </div>
-      </div>
     </div>
-  )
+  );
 }

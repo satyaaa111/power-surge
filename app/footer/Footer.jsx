@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className='container1 bg-[#0F3F4C] text-white flex justify-center items-center pb-[2rem] pt-[2rem]'>
+    <div className='container1 bg-[#0F3F4C] text-white flex justify-center items-center pb-[2rem] pt-[2rem] overflow-x-hidden'>
      <div className='left flex-col justify-center items-center pl-9' style={{flex:5}}>
         <div className='heading font-extrabold pb-5 pt-2'><i class="fa-solid fa-graduation-cap pr-1"></i> LifeTrackScholar</div>
         <div className='subheading1 font-medium'>Your Ultimate Management Solution</div>
