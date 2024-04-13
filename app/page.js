@@ -8,6 +8,7 @@ import Landing_page from "./landing_page/Landing_page";
 import '@fortawesome/fontawesome-free/css/all.css';
 import AcadDashboard from "./components/Dashboard_A";
 
+
 export default function Home() {
   const [formData, setFormData] = useState({
     title: '',
@@ -18,6 +19,7 @@ export default function Home() {
   });
   return (
     <div>
+     
       <Navbar/>
       <Landing_page/>
       <AcadDashboard formData={formData} setFormData={setFormData}/>

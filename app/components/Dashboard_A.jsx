@@ -178,8 +178,10 @@ const AcadDashboard = ({ formData,setFormData}) => {
                       className="status_comp" 
                       style={{
                         border:'1px solid gray',
-                        padding:'2px',
-                        borderRadius:'5rem'
+                        padding:'4px',
+                        borderRadius:'5rem',
+                        backgroundColor: element.status === 'completed' ? 'lightgreen' : 
+                                        element.status === 'processing' ? '#F7FF00' : '#fc918b'
                       }}>
                         {element.status}
                       </div>
@@ -190,7 +192,7 @@ const AcadDashboard = ({ formData,setFormData}) => {
             </div>
           </div>
           <Link
-          className="button flex justify-center items-center gap-2 p-3" 
+          className="button flex justify-center items-center gap-2 p-3 mt-3" 
           onClick={handleMajorEvent} 
           style={{
             background:'#0E9BA8',

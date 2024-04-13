@@ -1,9 +1,36 @@
-import React from 'react'
+"use client";
+import React, { useState, useEffect }  from 'react'
 
 
 
 export default function Landing_page() {
- 
+  const [typedText, setTypedText] = useState('');
+  const fullText = "Your Ultimate Study Schedule Management Solution";
+
+  useEffect(() => {
+    let currentIndex = 0;
+    let interval;
+
+    const typeText = () => {
+      interval = setInterval(() => {
+        setTypedText(fullText.substring(0, currentIndex));
+        currentIndex++;
+        if (currentIndex > fullText.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            currentIndex = 0;
+            setTypedText('');
+            typeText();
+          }, 3000); 
+        }
+      }, 50); 
+    };
+
+    typeText();
+
+    return () => clearInterval(interval);
+  }, []);
+
   
  
   return (
@@ -12,9 +39,9 @@ export default function Landing_page() {
             <div className="part1img flex justify-center items-center" style={{flex:5}}><img  src="/images/part1Image.png" className="part1img w-[25rem] rounded-[2%]" alt="" /></div>
             <div className="part1text flex-col justify-center items-center" style={{flex:5}}>
                 <span className="part1text_heading flex justify-center items-center text-teal-500 font-bold text-[2rem]">
-                Your Ultimate Study Schedule Management Solution
+                {typedText}
                 </span>
-                <div className='part1text_subheading flex justify-start items-center text-gray-700 font-medium'>For a happy healthy work life balance</div>
+                <div className='part1text_subheading flex justify-start items-center text-gray-700 font-medium'>Striving for joy, wellness, and equilibrium in work and life.</div>
                
             </div>
         </div>
