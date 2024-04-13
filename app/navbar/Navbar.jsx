@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Navbar() {
   return (
     <div>
-      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#F2F3F4]'>
+      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#F2F3F4] overflow-x-hidden'>
     <div className='left-item flex justify-start items-center pl-[1rem]' style={{flex:2}}>
         <div className='logo w-[3rem] pr-2'>
             <img src="/images/logo1.webp" alt="" />
