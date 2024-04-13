@@ -15,7 +15,7 @@ export default function Navbar() {
         <ul className='flex justify-between items-center'>
             
             <li className='mid_items pr-9'>
-                <Link href="/">
+                <Link href="/dashboard">
                 <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Dashboard</span>
                 </Link>
             </li>
@@ -30,7 +30,7 @@ export default function Navbar() {
                 </Link>
             </li>
             <li className='mid_items pr-9'>
-            <Link href="/">
+            <Link href="/ai_calling_bot">
                 <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>AI Calling Bot </span>
                 </Link>
             </li>
