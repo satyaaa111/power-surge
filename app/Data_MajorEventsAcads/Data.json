@@ -4,21 +4,21 @@
         "title": "Meeting with team",
         "progress": "87%",
         "status": "completed",
-        "date": "4th April, Wednesday"
+        "date": "13th April, Saturday"
       },
       {
         "id": 2,
         "title": "Project deadline",
         "progress": "45%",
         "status": "processing",
-        "date": "4th April, Wednesday"
+        "date": "13th April, Saturday"
       },
       {
         "id": 3,
         "title": "Client presentation",
         "progress": "62%",
         "status": "not started",
-        "date": "4th April, Wednesday"
+        "date": "13th April, Saturday"
       }
     ,
       {
@@ -26,7 +26,7 @@
         "title": "Weekly report",
         "progress": "90%",
         "status": "processing",
-        "date": "4th April, Wednesday"
+        "date": "14th April, Sunday"
       }
   ]
   

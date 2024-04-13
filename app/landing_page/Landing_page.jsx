@@ -1,21 +1,57 @@
-// app/components/LandingPage.js
-'use client'
+
+"use client";
+import React, { useState, useEffect }  from 'react'
+
+
+
 
 import React from 'react'
 import Image from 'next/image'
 
-export default function Landing_Page() {
+
+export default function Landing_page() {
+  const [typedText, setTypedText] = useState('');
+  const fullText = "Your Ultimate Study Schedule Management Solution";
+
+  useEffect(() => {
+    let currentIndex = 0;
+    let interval;
+
+    const typeText = () => {
+      interval = setInterval(() => {
+        setTypedText(fullText.substring(0, currentIndex));
+        currentIndex++;
+        if (currentIndex > fullText.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            currentIndex = 0;
+            setTypedText('');
+            typeText();
+          }, 3000); 
+        }
+      }, 50); 
+    };
+
+    typeText();
+
+    return () => clearInterval(interval);
+  }, []);
+
+  
+ 
   return (
-    <div className="container flex-col justify-center items-center bg-[#D7F1FB] overflow-x-hidden">
-      <div className="part1 flex justify-center items-center pt-[4rem] pb-[3rem]">
-        <div className="part1img flex justify-center items-center" style={{ flex: 5 }}>
-          <Image
-            src="/images/part1Image.png"
-            alt=""
-            width={400}
-            height={400}
-            className="part1img w-[25rem] rounded-[2%]"
-          />
+    <div className='container flex-col justify-center items-center bg-[#D7F1FB] overflow-x-hidden'>
+        <div className='part1 flex justify-center items-center pt-[4rem] pb-[3rem]'>
+            <div className="part1img flex justify-center items-center" style={{flex:5}}><img  src="/images/part1Image.png" className="part1img w-[25rem] rounded-[2%]" alt="" /></div>
+            <div className="part1text flex-col justify-center items-center" style={{flex:5}}>
+                <span className="part1text_heading flex justify-center items-center text-teal-500 font-bold text-[2rem]">
+                {typedText}
+                </span>
+                <div className='part1text_subheading flex justify-start items-center text-gray-700 font-medium'>Striving for joy, wellness, and equilibrium in work and life.</div>
+               
+            </div>
+
+
         </div>
         <div className="part1text flex-col justify-center items-center" style={{ flex: 5 }}>
           <span className="part1text_heading flex justify-center items-center text-teal-500 font-bold text-[2rem]">

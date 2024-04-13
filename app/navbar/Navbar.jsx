@@ -5,7 +5,7 @@ import ChatPopup from '../components/chat-Popup'
 export default function Navbar() {
   return (
     <div>
-      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#73D6FB] overflow-x-hidden'>
+      <div className='container flex justify-start items-center pt-[1rem] pb-[1rem] border-b border-gray-300 bg-[#F2F3F4] overflow-x-hidden'>
     <div className='left-item flex justify-start items-center pl-[1rem]' style={{flex:2}}>
       
         <div className='logo w-[3rem] pr-2'>
@@ -18,22 +18,22 @@ export default function Navbar() {
             
             <li className='mid_items pr-9'>
                 <Link href="/dashboard">
-                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Dashboard</span>
+                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Dashboard</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
               <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Achievements</span>
+                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Achievements</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
             <Link href="/">
-                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>Daily Dose</span>
+                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>Daily Dose</span>
                 </Link>
             </li>
             <li className='mid_items pr-9'>
             <Link href="/ai_calling_bot">
-                <span className='mid_items_text flex justify-center items-center text-blue-500 font-semibold cursor-pointer hover:text-blue-900'>AI Calling Bot </span>
+                <span className='mid_items_text flex justify-center items-center text-teal-500 font-semibold cursor-pointer hover:text-blue-500'>AI Calling Bot </span>
                 </Link>
             </li>
         </ul>
